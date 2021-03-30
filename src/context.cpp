@@ -68,7 +68,7 @@ void Context::CreateCircle(float radius, int segment){
     vertices.push_back(0.0f);
     vertices.push_back(0.0f);
 
-    for(int i=0; i<segment; i++){
+    for(int i=0; i<= segment; i++){
         float angle = (360.0f / segment * i) * pi / 180.0f;
         float x = cosf(angle) * radius;
         float y = sinf(angle) * radius;
@@ -80,10 +80,7 @@ void Context::CreateCircle(float radius, int segment){
     for(int i=0; i<segment; i++){
         indices.push_back(0);
         indices.push_back(i+1);
-        if(i==segment-1)
-            indices.push_back(0);
-        else
-            indices.push_back(i+2);
+        indices.push_back(i+2);
     }
 
     m_vertexLayout = VertexLayout::Create();
@@ -97,4 +94,83 @@ void Context::CreateCircle(float radius, int segment){
         GL_STATIC_DRAW, indices.data(), sizeof(uint32_t) * indices.size());
 
     m_indexCount = (int)indices.size();
+
+    auto loc = glGetUniformLocation(m_program->Get(), "color");
+    m_program->Use();
+    glUniform4f(loc, 1.0f, 1.0f, 1.0f, 1.0f);
 };
+
+void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float start, float end){
+    std::vector<float> vertices;
+    std::vector<uint32_t> indices;
+    
+    const float pi = 3.141592f;
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+
+    for(int i=0; i< segment; i++){
+        
+        float angle = (360.0f / segment * i) * pi / 180.0f;
+        float x1 = cosf(angle) * in_radius;
+        float y1 = sinf(angle) * in_radius;
+        vertices.push_back(x1);
+        vertices.push_back(y1);
+        vertices.push_back(0.0f);
+    }
+
+    for(int i=0; i< segment; i++){
+        float angle = (360.0f / segment * i) * pi / 180.0f;
+        float x2 = cosf(angle) * out_radius;
+        float y2 = sinf(angle) * out_radius;
+        vertices.push_back(x2);
+        vertices.push_back(y2);
+        vertices.push_back(0.0f);
+    }
+
+    for(int i=1; i<=segment; i++){
+        if(i=segment)
+        {
+           indices.push_back(i);
+           indices.push_back(1);
+           indices.push_back(i+segment); 
+        }
+        else
+        {
+            indices.push_back(i);
+            indices.push_back(i+1);
+            indices.push_back(i+segment);
+        }
+    }
+
+    /*for(int i=1; i<=segment; i++){
+        if(i=segment)
+        {
+           indices.push_back(1);
+           indices.push_back(1+segment);
+           indices.push_back(1+segment); 
+        }
+        else
+        {
+            indices.push_back(i+1);
+            indices.push_back(i+segment);
+            indices.push_back(i+segment+1);
+        }
+    }*/
+
+    m_vertexLayout = VertexLayout::Create();
+    m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER,
+        GL_STATIC_DRAW, vertices.data(),sizeof(float) * vertices.size());
+    // GL_STATIC_DRAW = GL_ +  STATIC,DYNAMIC,STREAM,DRAW,COPY의 조합
+
+    m_vertexLayout->SetAttrib(0, 3, GL_FLOAT, GL_FALSE, sizeof(float)*3, 0);
+
+    m_indexBuffer=Buffer::CreateWithData(GL_ELEMENT_ARRAY_BUFFER, 
+        GL_STATIC_DRAW, indices.data(), sizeof(uint32_t) * indices.size());
+
+    m_indexCount = (int)indices.size();
+
+    auto loc = glGetUniformLocation(m_program->Get(), "color");
+    m_program->Use();
+    glUniform4f(loc, 1.0f, 1.0f, 1.0f, 1.0f);
+}

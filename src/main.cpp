@@ -32,13 +32,26 @@ int main(int argc, const char** argv) {
       SPDLOG_INFO("argv[{}]:{}", i, argv[i]);
     }
 
-    float circleRadius = 0.75f;
-    int circleSegmentCount = 16;
+    float out_Radius = 0.75f;
+    float in_Radius = 0.5f;
+    int circleSegmentCount = 8;
+    float start_Angle = 0.0f;
+    float end_Angle = 360.0f;
+
     if(argc>=2){
-      circleRadius = std::stof(argv[1]);
+      out_Radius = std::stof(argv[1]);
     }
     if(argc>=3){
-      circleSegmentCount = std::stoi(argv[2]);
+      in_Radius = std::stof(argv[2]);
+    }
+    if(argc>=4){
+      circleSegmentCount = std::stoi(argv[3]);
+    }
+    if(argc>=5){
+      start_Angle = std::stof(argv[4]);
+    }
+    if(argc>=6){
+      end_Angle = std::stof(argv[5]);
     }
 
       // glfw 라이브러리 초기화, 실패하면 에러 출력후 종료
@@ -84,7 +97,8 @@ int main(int argc, const char** argv) {
       return -1;
     }
 
-    context->CreateCircle(circleRadius, circleSegmentCount);
+    context->CreateDoughnut(out_Radius,in_Radius,circleSegmentCount,start_Angle,end_Angle);
+    //context->CreateCircle(out_Radius,circleSegmentCount);
 
     OnFramebufferSizeChange(window, WINDOW_WIDTH, WINDOW_HEIGHT);
     glfwSetFramebufferSizeCallback(window, OnFramebufferSizeChange);
