@@ -150,21 +150,16 @@ void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float 
     }
     }
 
-    if(end-start<360.0f)
-    {
-    for(int i=1; i<segment; i++){
-            indices.push_back(i);
-            indices.push_back(i+1);
-            indices.push_back(i+segment+1); 
-    }
-
     for(int i=1; i<=segment; i++){
-            indices.push_back(i+1);
-            indices.push_back(i+segment);
-            indices.push_back(i+segment+1); 
+        indices.push_back(i);
+        indices.push_back(i+1);
+        indices.push_back(i+segment+1); 
     }
+    for(int i=1; i<=segment; i++){
+        indices.push_back(i+1);
+        indices.push_back(i+segment+1);
+        indices.push_back(i+segment+2);
     }
-    
 
     m_vertexLayout = VertexLayout::Create();
     m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER,

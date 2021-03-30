@@ -35,11 +35,11 @@ int main(int argc, const char** argv) {
     float out_Radius = 0.75f;
     float in_Radius = 0.5f;
     int circleSegmentCount = 8;
-    float start_Angle = 30.0f;
-    float end_Angle = 270.0f;
-    float R = 0.5f;
-    float G = 0.5f;
-    float B = 0.0f;
+    float start_Angle = 00.0f;
+    float end_Angle = 360.0f;
+    float R = 1.0f;
+    float G = 1.0f;
+    float B = 1.0f;
 
     if(argc>=2){
       out_Radius = std::stof(argv[1]);
