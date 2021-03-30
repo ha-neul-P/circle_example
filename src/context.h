@@ -14,7 +14,7 @@ class Context
 public:
     static ContextUPtr Create();
     void CreateCircle(float radius, int segment);
-    void CreateDoughnut(float out_radius,float in_radius,int segment,float start, float end);
+    void CreateDoughnut(float out_radius,float in_radius,int segment,float start, float end,float R,float G,float B);
     void Render();
 
 private:

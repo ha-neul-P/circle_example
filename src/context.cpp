@@ -100,7 +100,7 @@ void Context::CreateCircle(float radius, int segment){
     glUniform4f(loc, 1.0f, 1.0f, 1.0f, 1.0f);
 };
 
-void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float start, float end){
+void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float start, float end,float R,float G,float B){
     std::vector<float> vertices;
     std::vector<uint32_t> indices;
     
@@ -129,34 +129,34 @@ void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float 
     }
 
     for(int i=1; i<=segment; i++){
-        if(i=segment)
-        {
-           indices.push_back(i);
-           indices.push_back(1);
-           indices.push_back(i+segment); 
-        }
-        else
+        if(i<segment)
         {
             indices.push_back(i);
             indices.push_back(i+1);
-            indices.push_back(i+segment);
-        }
-    }
-
-    /*for(int i=1; i<=segment; i++){
-        if(i=segment)
-        {
-           indices.push_back(1);
-           indices.push_back(1+segment);
-           indices.push_back(1+segment); 
+            indices.push_back(i+segment); 
         }
         else
         {
+           indices.push_back(i);
+           indices.push_back(1);
+           indices.push_back(i+segment);
+        }
+    }
+
+    for(int i=1; i<=segment; i++){
+        if(i<segment)
+        {
             indices.push_back(i+1);
             indices.push_back(i+segment);
-            indices.push_back(i+segment+1);
+            indices.push_back(i+segment+1); 
         }
-    }*/
+        else
+        {
+            indices.push_back(1);
+            indices.push_back(segment*2);
+            indices.push_back(1+segment);
+        }
+    }
 
     m_vertexLayout = VertexLayout::Create();
     m_vertexBuffer = Buffer::CreateWithData(GL_ARRAY_BUFFER,
@@ -172,5 +172,5 @@ void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float 
 
     auto loc = glGetUniformLocation(m_program->Get(), "color");
     m_program->Use();
-    glUniform4f(loc, 1.0f, 1.0f, 1.0f, 1.0f);
+    glUniform4f(loc, R, G, B, 1.0f);
 }

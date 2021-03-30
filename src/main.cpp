@@ -37,6 +37,9 @@ int main(int argc, const char** argv) {
     int circleSegmentCount = 8;
     float start_Angle = 0.0f;
     float end_Angle = 360.0f;
+    float R = 0.0;
+    float G = 0.5;
+    float B = 0.0;
 
     if(argc>=2){
       out_Radius = std::stof(argv[1]);
@@ -52,6 +55,15 @@ int main(int argc, const char** argv) {
     }
     if(argc>=6){
       end_Angle = std::stof(argv[5]);
+    }
+    if(argc>=7){
+      R = std::stof(argv[6]);
+    }
+    if(argc>=8){
+      G = std::stof(argv[7]);
+    }
+    if(argc>=9){
+      B = std::stof(argv[8]);
     }
 
       // glfw 라이브러리 초기화, 실패하면 에러 출력후 종료
@@ -97,7 +109,7 @@ int main(int argc, const char** argv) {
       return -1;
     }
 
-    context->CreateDoughnut(out_Radius,in_Radius,circleSegmentCount,start_Angle,end_Angle);
+    context->CreateDoughnut(out_Radius,in_Radius,circleSegmentCount,start_Angle,end_Angle,R,G,B);
     //context->CreateCircle(out_Radius,circleSegmentCount);
 
     OnFramebufferSizeChange(window, WINDOW_WIDTH, WINDOW_HEIGHT);
