@@ -110,7 +110,7 @@ void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float 
     vertices.push_back(0.0f);
     vertices.push_back(0.0f);
 
-    if(end-start<360.0f){
+   
     for(int i=0; i<= segment; i++){
         float angle = ((((end-start) / segment * i)+start) * pi / 180.0f);
         float x = cosf(angle) * in_radius;
@@ -128,28 +128,7 @@ void Context::CreateDoughnut(float out_radius,float in_radius,int segment,float 
         vertices.push_back(y);
         vertices.push_back(0.0f);
     }
-    }
-
-    else{
-        for(int i=0; i<= segment; i++){
-        float angle = (((end-start) / segment * i) * pi / 180.0f);
-        float x = cosf(angle) * in_radius;
-        float y = sinf(angle) * in_radius;
-        vertices.push_back(x);
-        vertices.push_back(y);
-        vertices.push_back(0.0f);
-    }
-
-    for(int i=0; i<= segment; i++){
-        float angle = (((end-start) / segment * i) * pi / 180.0f);
-        float x = cosf(angle) * out_radius;
-        float y = sinf(angle) * out_radius;
-        vertices.push_back(x);
-        vertices.push_back(y);
-        vertices.push_back(0.0f);
-    }
-    }
-
+    
     for(int i=1; i<=segment; i++){
         indices.push_back(i);
         indices.push_back(i+1);
